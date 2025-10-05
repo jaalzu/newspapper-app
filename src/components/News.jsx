@@ -37,6 +37,8 @@ export default function News() {
           <li key={article.url} className="border-b pb-2">
             {article.urlToImage && (
               <img
+                width={100}
+                height={100}
                 src={article.urlToImage}
                 alt={article.title}
                 className="w-full h-auto mb-2 rounded"
