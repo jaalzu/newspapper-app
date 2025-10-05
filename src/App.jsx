@@ -1,13 +1,11 @@
-import './App.css'
-import News from './components/News'
-import NewsHeader from './components/Nav/Nav'
+import "../src/styles/global.css"; // <-- tu CSS con variables, tipografía y resets
+import MainLayout from './layouts/mainLayout.jsx'
+
 function App() {
 
   return (
     <>
-    <NewsHeader />
-    <h1>Noticias</h1>
-    <News />
+    <MainLayout />
     </>
   )
 }
