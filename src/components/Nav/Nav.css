@@ -1,4 +1,3 @@
-/* Oculta scrollbar pero mantiene scroll horizontal */
 .scroll-hide {
   -ms-overflow-style: none;  /* IE y Edge */
   scrollbar-width: none;     /* Firefox */

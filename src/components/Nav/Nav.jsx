@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../../styles/global.css";
-import "./Nav.css"; // CSS extra para scroll bonito
+import "./Nav.css"; 
 
 export default function NewsHeader() {
   const sections = [
@@ -16,7 +16,6 @@ export default function NewsHeader() {
 
   return (
     <header className="w-full border-b border-gray-300">
-      {/* Top Section - Logo */}
       <div
         className="py-3 px-2 md:px-6 flex items-center justify-between"
         style={{
@@ -47,7 +46,6 @@ export default function NewsHeader() {
           ☰
         </button>
 
-        {/* Secciones con scroll horizontal y scrollbar escondida */}
         <nav className="flex overflow-x-auto gap-4 scroll-hide">
           {sections.map((section) => (
             <a
@@ -67,7 +65,6 @@ export default function NewsHeader() {
         </nav>
       </div>
 
-      {/* Menú desplegable completo debajo (mobile) */}
       {menuOpen && (
         <div className="md:hidden bg-[var(--color-primary)] px-2 py-2 border-t border-gray-300">
           {sections.map((section) => (
