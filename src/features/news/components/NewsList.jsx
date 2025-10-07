@@ -13,7 +13,7 @@ const remainingArticles = news.slice(2) // a partir de la tercera
 return (
   <div className="news-layout">
     {/* Layout desktop */}
-    <div className="hidden lg:block">
+    <div className="hidden sm:block">
       <div className="flex gap-8 mb-8 max-w-6xl mx-auto">
         {/* Primera noticia grande */}
         <div className="w-8/12">
@@ -39,8 +39,8 @@ return (
     </div>
 
     {/* Layout mobile */}
-    <div className="lg:hidden px-4">
-      {featuredArticle && <div className="mb-6"><NewsCard article={featuredArticle} /></div>}
+    <div className="lg:hidden">
+      {featuredArticle && <div className="mb-10"><NewsCard article={featuredArticle} /></div>}
 
       {remainingArticles.length > 0 && (
         <div className="grid gap-6 sm:grid-cols-2">

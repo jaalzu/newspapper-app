@@ -8,18 +8,14 @@ export default function NewsCard({ article, compact }) {
       rel="noopener noreferrer"
       className={`block p-2 transition-all duration-300 ${styles.card}`} // <- hover via CSS
     >
-      {/* Imagen más pequeña, sin bordes ni shadow */}
       {article.urlToImage && (
         <img
   src={article.urlToImage}
   alt={article.title}
   className="w-full object-cover mb-2 aspect-video"
 />
-
       )}
-
-      {/* Título destacado con clase para hover subrayado */}
-      <h2 className={`font-bold mb-1 ${compact ? 'text-base' : 'text-lg'} ${styles.title}`}>
+      <h2 className={`font-bold mb-1 text-xl ${styles.title}`}>
         {article.title}
       </h2>
 

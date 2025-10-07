@@ -42,22 +42,22 @@ export default function NewsHeader() {
         </button>
 
         {/* Links visibles siempre en fila */}
-        <nav className="flex overflow-x-auto gap-4 scroll-hide flex-1">
-          {sections.map(({ name, href }) => (
-            <a
-              key={href}
-              href={href}
-              className="text-sm md:text-base flex-shrink-0 border-b-2 border-transparent hover:border-[var(--color-accent)] transition-colors"
-              style={{
-                fontWeight: "var(--font-semibold)",
-                textTransform: "uppercase",
-                color: "var(--color-text)",
-              }}
-            >
-              {name}
-            </a>
-          ))}
-        </nav>
+        <nav className="flex justify-start lg:justify-center overflow-x-auto gap-4 scroll-hide flex-1">
+  {sections.map(({ name, href }) => (
+    <a
+      key={href}
+      href={href}
+      className="text-sm md:text-base flex-shrink-0 border-b-2 border-transparent hover:border-[var(--color-accent)] transition-colors"
+      style={{
+        fontWeight: "var(--font-semibold)",
+        textTransform: "uppercase",
+        color: "var(--color-text)",
+      }}
+    >
+      {name}
+    </a>
+  ))}
+</nav>
       </div>
 
       {/* Menu mobile desplegable en columna */}
