@@ -1,0 +1,12 @@
+import NewsList from '../features/news/components/NewsList'
+
+export default function NewsPage() {
+  return (
+    <main className="min-h-screen bg-gray-50 p-6">
+      <h1 className="text-2xl font-bold mb-6 text-center">Últimas Noticias</h1>
+
+      <NewsList country="us" category="business" />
+
+    </main>
+  )
+}
