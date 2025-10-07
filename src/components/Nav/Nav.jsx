@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../../styles/global.css";
-import "./Nav.css"; 
+import "./Nav.css";
 
 export default function NewsHeader() {
   const sections = [
@@ -15,14 +15,9 @@ export default function NewsHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="w-full border-b border-gray-300">
-      <div
-        className="py-3 px-2 md:px-6 flex items-center justify-between"
-        style={{
-          backgroundColor: "var(--color-primary)",
-          color: "var(--color-bg)",
-        }}
-      >
+    <header className="w-full border-b bg-[var(--color-bg)] border-gray-300">
+      {/* Logo */}
+      <div className="py-3 px-2 md:px-6 bg-[var(--color-primary)] text-[var(--color-bg)]">
         <a
           href="/"
           style={{
@@ -32,54 +27,54 @@ export default function NewsHeader() {
           }}
           className="text-2xl md:text-3xl"
         >
-          Global<span style={{ color: "var(--color-accent)" }}>News</span>
+          Weazel <span style={{ color: "var(--color-accent)" }}>News</span>
         </a>
       </div>
 
-      {/* Bottom Section - Navigation */}
-      <div className="relative py-2 px-2 md:px-6 flex items-center">
-        {/* Botón menú visible solo en mobile */}
+      {/* Nav principal con botón mobile */}
+      <div className="relative py-2 px-2 md:px-6 flex items-center justify-between">
+        {/* Botón menu mobile a la izquierda */}
         <button
-          className="md:hidden mr-2 px-2 py-1 border rounded text-sm"
+          className="md:hidden mr-2 px-3 py-2 border rounded text-sm flex-shrink-0"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           ☰
         </button>
 
-        <nav className="flex overflow-x-auto gap-4 scroll-hide">
-          {sections.map((section) => (
+        {/* Links visibles siempre en fila */}
+        <nav className="flex overflow-x-auto gap-4 scroll-hide flex-1">
+          {sections.map(({ name, href }) => (
             <a
-              key={section.href}
-              href={section.href}
+              key={href}
+              href={href}
+              className="text-sm md:text-base flex-shrink-0 border-b-2 border-transparent hover:border-[var(--color-accent)] transition-colors"
               style={{
-                fontFamily: "var(--font-body)",
                 fontWeight: "var(--font-semibold)",
                 textTransform: "uppercase",
                 color: "var(--color-text)",
               }}
-              className="text-sm md:text-base flex-shrink-0 hover:text-red-600 transition-colors"
             >
-              {section.name}
+              {name}
             </a>
           ))}
         </nav>
       </div>
 
+      {/* Menu mobile desplegable en columna */}
       {menuOpen && (
-        <div className="md:hidden bg-[var(--color-primary)] px-2 py-2 border-t border-gray-300">
-          {sections.map((section) => (
+        <div className="md:hidden px-2 py-2 border-t border-gray-300 flex flex-col gap-2">
+          {sections.map(({ name, href }) => (
             <a
-              key={section.href}
-              href={section.href}
+              key={href}
+              href={href}
+              className="block py-1 px-2 text-sm hover:text-red-600 transition-colors border-b-2 border-transparent hover:border-[var(--color-accent)]"
               style={{
-                fontFamily: "var(--font-body)",
                 fontWeight: "var(--font-semibold)",
                 textTransform: "uppercase",
                 color: "var(--color-text)",
               }}
-              className="block py-1 text-sm hover:text-red-600 transition-colors"
             >
-              {section.name}
+              {name}
             </a>
           ))}
         </div>

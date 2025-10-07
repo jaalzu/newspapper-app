@@ -1,0 +1,13 @@
+.card {
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover .title {
+  text-decoration: underline 2px;
+}
+
+/* Para asegurarnos de que el título sea selectivo */
+.title {
+  transition: text-decoration 0.2s ease;
+}
+
