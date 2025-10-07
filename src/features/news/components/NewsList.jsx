@@ -6,57 +6,49 @@ export default function NewsList({ country, category, q }) {
 
   if (isLoading) return <p className="text-center mt-6">Cargando noticias...</p>
   if (error) return <p className="text-center text-red-500">{error}</p>
+const featuredArticle = news[0]
+const secondArticle = news[1]
+const remainingArticles = news.slice(2) // a partir de la tercera
 
-  // Tomamos la primera noticia como destacada
-  const featuredArticle = news[0]
-  const remainingArticles = news.slice(1)
-
-  return (
-    <div className="news-layout">
-      {/* Layout para desktop */}
-      <div className="hidden lg:block">
-        <div className="flex gap-8 mb-8">
-          {/* Noticia destacada - más grande */}
-          <div className="flex-1">
-            {featuredArticle && (
-              <NewsCard article={featuredArticle} large={true} />
-            )}
-          </div>
-          
-          {/* Una noticia adicional al lado */}
-          <div className="w-80 flex-shrink-0">
-            {remainingArticles[0] && (
-              <NewsCard article={remainingArticles[0]} />
-            )}
-          </div>
+return (
+  <div className="news-layout">
+    {/* Layout desktop */}
+    <div className="hidden lg:block">
+      <div className="flex gap-8 mb-8 max-w-6xl mx-auto">
+        {/* Primera noticia grande */}
+        <div className="w-8/12">
+          {featuredArticle && <NewsCard article={featuredArticle} large={true} />}
         </div>
-        
-        {/* Resto de las noticias debajo en grid */}
-        {remainingArticles.length > 1 && (
-          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {remainingArticles.slice(1).map((article) => (
-              <NewsCard key={article.url} article={article} />
+
+        {/* Segunda noticia */}
+        <div className="w-4/12">
+          {secondArticle && <NewsCard article={secondArticle} />}
+        </div>
+      </div>
+
+      {/* Resto de noticias en grid */}
+      {remainingArticles.length > 0 && (
+        <div className="max-w-6xl mx-auto">
+          <div className="grid gap-6 grid-cols-4">
+            {remainingArticles.map((article) => (
+              <NewsCard key={article.url} article={article} compact={true} />
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
+    </div>
 
-      {/* Layout para mobile */}
-      <div className="lg:hidden">
-        {/* Noticia destacada */}
-        {featuredArticle && (
-          <div className="mb-6">
-            <NewsCard article={featuredArticle} large={false} />
-          </div>
-        )}
-        
-        {/* Resto de las noticias */}
+    {/* Layout mobile */}
+    <div className="lg:hidden px-4">
+      {featuredArticle && <div className="mb-6"><NewsCard article={featuredArticle} /></div>}
+
+      {remainingArticles.length > 0 && (
         <div className="grid gap-6 sm:grid-cols-2">
           {remainingArticles.map((article) => (
-            <NewsCard key={article.url} article={article} />
+            <NewsCard key={article.url} article={article} compact={true} />
           ))}
         </div>
-      </div>
+      )}
     </div>
-  )
-}
+  </div>
+)}

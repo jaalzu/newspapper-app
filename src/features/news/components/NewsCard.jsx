@@ -1,43 +1,40 @@
 import styles from './NewsCard.module.css'
 
-export default function NewsCard({ article, large }) {
+export default function NewsCard({ article, compact }) {
   return (
     <a
       href={article.url}
       target="_blank"
       rel="noopener noreferrer"
-      className={`block bg-white rounded-xl shadow p-6 hover:shadow-lg transition-all duration-300 
-        ${large ? 'h-full' : ''} ${styles.card}`}
+      className={`block p-2 transition-all duration-300 ${styles.card}`} // <- hover via CSS
     >
-      <div className={`overflow-hidden rounded-lg mb-4 
-        ${large ? 'h-72' : 'h-48'} ${styles.imageContainer}`}>
+      {/* Imagen más pequeña, sin bordes ni shadow */}
+      {article.urlToImage && (
         <img
-          src={article.urlToImage || '/placeholder.jpg'}
-          alt={article.title}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-        />
-      </div>
-      
-      <h2
-        className={`font-semibold mb-3 line-clamp-3 ${styles.title} ${
-          large ? 'text-xl' : 'text-lg'
-        }`}
-      >
+  src={article.urlToImage}
+  alt={article.title}
+  className="w-full object-cover mb-2 aspect-video"
+/>
+
+      )}
+
+      {/* Título destacado con clase para hover subrayado */}
+      <h2 className={`font-bold mb-1 ${compact ? 'text-base' : 'text-lg'} ${styles.title}`}>
         {article.title}
       </h2>
-      
-      <p className={`text-gray-600 mb-4 line-clamp-3 ${styles.description} ${
-        large ? 'text-base' : 'text-sm'
-      }`}>
-        {article.description}
-      </p>
-      
+
+      {/* Solo mostramos descripción si no es compact */}
+      {!compact && article.description && (
+        <p className="text-gray-700 text-sm mb-1 line-clamp-2">
+          {article.description}
+        </p>
+      )}
+
+      {/* Fecha y fuente */}
       <div className="flex justify-between items-center text-xs text-gray-500">
-        <span>
-          {new Date(article.publishedAt).toLocaleDateString()}
-        </span>
+        <span>{new Date(article.publishedAt).toLocaleDateString()}</span>
         {article.source?.name && (
-          <span className="bg-gray-100 px-2 py-1 rounded">
+          <span className="bg-gray-200 px-1 py-0.5 rounded text-gray-700 text-[0.6rem]">
             {article.source.name}
           </span>
         )}
