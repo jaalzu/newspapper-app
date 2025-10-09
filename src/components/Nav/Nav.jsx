@@ -12,6 +12,7 @@ export default function NewsHeader() {
     { name: "Cultura", href: "/cultura" },
     { name: "Ciencia", href: "/ciencia" },
     { name: "Opinión", href: "/opinion" },
+    { name: "Favoritos", href: "/favoritos" },
   ];
 
   const [menuOpen, setMenuOpen] = useState(false);

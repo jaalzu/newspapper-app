@@ -1,32 +1,47 @@
-import styles from './NewsCard.module.css'
+import styles from './NewsCard.module.css';
+import { useFavoritesContext } from '../../../favoritesNews/useFavoritesContext';
 
 export default function NewsCard({ article, compact }) {
+  const { toggle, isFavorite } = useFavoritesContext();
+
+  const handleFavorite = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggle(article);
+  };
+
   return (
     <a
       href={article.url}
       target="_blank"
       rel="noopener noreferrer"
-      className={`block p-2 transition-all duration-300 ${styles.card}`} // <- hover via CSS
+      className={`block p-2 transition-all duration-300 relative ${styles.card}`}
     >
+      <button
+        onClick={handleFavorite}
+        className="absolute top-4 right-4 z-10 text-2xl"
+      >
+        {isFavorite(article.url) ? '❤️' : '🤍'}
+      </button>
+
       {article.urlToImage && (
         <img
-  src={article.urlToImage}
-  alt={article.title}
-  className="w-full object-cover mb-2 aspect-video"
-/>
+          src={article.urlToImage}
+          alt={article.title}
+          className="w-full object-cover mb-2 aspect-video"
+        />
       )}
+
       <p className={`font-bold mb-1 text-xl ${styles.title}`}>
         {article.title}
       </p>
 
-      {/* Solo mostramos descripción si no es compact */}
       {!compact && article.description && (
         <p className="text-gray-700 text-sm mb-1 line-clamp-2">
           {article.description}
         </p>
       )}
 
-      {/* Fecha y fuente */}
       <div className="flex justify-between items-center text-xs text-gray-500">
         <span>{new Date(article.publishedAt).toLocaleDateString()}</span>
         {article.source?.name && (
@@ -36,5 +51,5 @@ export default function NewsCard({ article, compact }) {
         )}
       </div>
     </a>
-  )
+  );
 }
