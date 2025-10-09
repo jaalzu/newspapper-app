@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "../../styles/global.css";
 import "./Nav.css";
+import { Link } from 'react-router-dom';
+
 
 export default function NewsHeader() {
   const sections = [
@@ -42,11 +44,11 @@ export default function NewsHeader() {
         </button>
 
         {/* Links visibles siempre en fila */}
-        <nav className="flex justify-start lg:justify-center overflow-x-auto gap-4 scroll-hide flex-1">
+       <nav className="flex justify-center overflow-x-auto gap-4 scroll-hide flex-1">
   {sections.map(({ name, href }) => (
-    <a
+    <Link
       key={href}
-      href={href}
+      to={href} // <-- React Router
       className="text-sm md:text-base flex-shrink-0 border-b-2 border-transparent hover:border-[var(--color-accent)] transition-colors"
       style={{
         fontWeight: "var(--font-semibold)",
@@ -55,30 +57,30 @@ export default function NewsHeader() {
       }}
     >
       {name}
-    </a>
+    </Link>
   ))}
 </nav>
       </div>
 
       {/* Menu mobile desplegable en columna */}
-      {menuOpen && (
-        <div className="md:hidden px-2 py-2 border-t border-gray-300 flex flex-col gap-2">
-          {sections.map(({ name, href }) => (
-            <a
-              key={href}
-              href={href}
-              className="block py-1 px-2 text-sm hover:text-red-600 transition-colors border-b-2 border-transparent hover:border-[var(--color-accent)]"
-              style={{
-                fontWeight: "var(--font-semibold)",
-                textTransform: "uppercase",
-                color: "var(--color-text)",
-              }}
-            >
-              {name}
-            </a>
-          ))}
-        </div>
-      )}
+     {menuOpen && (
+  <div className="md:hidden px-2 py-2 border-t border-gray-300 flex flex-col gap-2">
+    {sections.map(({ name, href }) => (
+      <Link
+        key={href}
+        to={href} // <-- React Router
+        className="block py-1 px-2 text-sm hover:text-red-600 transition-colors border-b-2 border-transparent hover:border-[var(--color-accent)]"
+        style={{
+          fontWeight: "var(--font-semibold)",
+          textTransform: "uppercase",
+          color: "var(--color-text)",
+        }}
+      >
+        {name}
+      </Link>
+    ))}
+  </div>
+)}
     </header>
   );
 }

@@ -1,10 +1,12 @@
-import NewsCard from './NewsCard'
-import { useFetchNews } from '../hooks/useFetchNews'
+import NewsCard from '../NewsCard/NewsCard'
+import { useFetchNews } from '../../hooks/useFetchNews'
+import NewsListSkeleton from './NewsListSkeleton'
+
 
 export default function NewsList({ country, category, q }) {
   const { news, isLoading, error } = useFetchNews({ country, category, q })
 
-  if (isLoading) return <p className="text-center mt-6">Cargando noticias...</p>
+  if (isLoading) return <NewsListSkeleton />
   if (error) return <p className="text-center text-red-500">{error}</p>
 const featuredArticle = news[0]
 const secondArticle = news[1]
@@ -26,10 +28,11 @@ return (
         </div>
       </div>
 
+
       {/* Resto de noticias en grid */}
       {remainingArticles.length > 0 && (
         <div className="max-w-6xl mx-auto">
-          <div className="grid gap-6 grid-cols-4">
+          <div className="grid gap-6 grid-cols-3">
             {remainingArticles.map((article) => (
               <NewsCard key={article.url} article={article} compact={true} />
             ))}
