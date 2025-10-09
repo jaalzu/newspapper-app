@@ -8,7 +8,7 @@ html, body {
   height: 100%;
   box-sizing: border-box;
   background-color: var(--color-bg);
-  line-height: 1.6;
+  line-height: 1.4;
 }
 
 ul{

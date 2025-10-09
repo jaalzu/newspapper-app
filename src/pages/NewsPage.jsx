@@ -2,16 +2,15 @@ import NewsList from '../features/news/components/NewsList/NewsList'
 import { useParams } from 'react-router-dom';
 
 export default function NewsPage() {
-    const { category } = useParams(); // <-- aquí tomás la categoría de la URL
+    const { category } = useParams(); 
 
-    // dentro de NewsPage.jsx
 const categoryMap = {
-  mundo: null,           // null o undefined para "top headlines"
+  mundo: null,           
   economia: "business",
   deportes: "sports",
   cultura: "entertainment",
   ciencia: "science",
-  opinion: "general",    // NewsAPI no tiene "opinion", podemos usar general
+  opinion: "general",    
 };
 
 const apiCategory = category ? categoryMap[category.toLowerCase()] : undefined;
