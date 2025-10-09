@@ -1,7 +1,7 @@
 export default function NewsCardSkeleton({ compact }) {
   return (
     <div
-      className={`block p-2 transition-all duration-300 animate-pulse border border-gray-200 rounded-md bg-gray-100`}
+      className={`block p-2 transition-all duration-300 animate-pulse `}
     >
       {/* Imagen simulada */}
       <div className="w-full aspect-video bg-gray-300 mb-2 rounded" />
