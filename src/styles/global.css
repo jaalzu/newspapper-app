@@ -3,3 +3,10 @@
 @import './utilities.css';
 @import './resets.css';
 
+/* Titulos */
+@import "@fontsource/cormorant-garamond/400.css"; /* regular */
+@import "@fontsource/cormorant-garamond/700.css"; /* bold */
+
+/* Texto de noticias */
+@import "@fontsource/lora/400.css";
+@import "@fontsource/lora/700.css";

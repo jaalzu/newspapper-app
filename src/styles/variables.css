@@ -7,21 +7,10 @@
   --color-text-light: #777777;
   --color-bg: #fff4f4;
 
-  /* Tipografía */
-  --font-heading: 'Merriweather', serif;
-  --font-body: 'Inter', sans-serif;
-
-  /* Tamaños
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem; */
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'Lora', serif;
 
   /* Grosor */
-  --font-thin: 100;
   --font-normal: 400;
   --font-semibold: 600;
   --font-bold: 700;

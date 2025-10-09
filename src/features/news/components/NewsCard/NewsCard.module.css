@@ -6,11 +6,8 @@
   text-decoration: underline 2px;
 }
 
-h2{
-  line-height: 1.2;
-}
 /* Para asegurarnos de que el título sea selectivo */
 .title {
   transition: text-decoration 0.2s ease;
+  line-height: 1.2;
 }
-

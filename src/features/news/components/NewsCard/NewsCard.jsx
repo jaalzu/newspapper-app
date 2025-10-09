@@ -15,9 +15,9 @@ export default function NewsCard({ article, compact }) {
   className="w-full object-cover mb-2 aspect-video"
 />
       )}
-      <h2 className={`font-bold mb-1 text-xl ${styles.title}`}>
+      <p className={`font-bold mb-1 text-xl ${styles.title}`}>
         {article.title}
-      </h2>
+      </p>
 
       {/* Solo mostramos descripción si no es compact */}
       {!compact && article.description && (
