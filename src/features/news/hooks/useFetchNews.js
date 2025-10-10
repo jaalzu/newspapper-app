@@ -19,9 +19,10 @@ export function useFetchNews({ country = 'us', category, q } = {}) {
     async function loadNews() {
       setIsLoading(true)
       try {
-        const apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}${
-          category ? `&category=${category}` : ''
-        }${q ? `&q=${q}` : ''}&apiKey=${API_KEY}`
+        const apiUrl = `/api/news?country=${country}${
+         category ? `&category=${category}` : ''
+        }${q ? `&q=${q}` : ''}`;
+
 
         const data = await fetchNews(apiUrl)
         setNews(data)
