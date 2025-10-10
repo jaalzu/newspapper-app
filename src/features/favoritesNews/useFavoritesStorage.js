@@ -1,7 +1,7 @@
 // hooks/favorites/useFavoritesStorage.js
 import { useEffect } from "react";
+import { STORAGE_KEY } from "./constants";
 
-const STORAGE_KEY = "mynews:favorites";
 
 export function readFavorites() {
   try {

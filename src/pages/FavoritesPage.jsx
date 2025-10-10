@@ -13,6 +13,7 @@ function FavoritesPage() {
       <h1>Mis Noticias Guardadas</h1>
       {favorites.map(article => (
         <div key={article.url}>
+          <img src={article.url} alt="" />
           <h3>{article.title}</h3>
           <button onClick={() => remove(article.url)}>Eliminar</button>
         </div>
