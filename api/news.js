@@ -1,15 +1,33 @@
 // api/news.js
 const newsCache = {};
-const CACHE_TIME = 15 * 60 * 1000; // 15 minutos
+const CACHE_TIME = 20 * 60 * 1000; // 20 minutos
+
+async function fetchWithRetry(url, maxRetries = 3) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+      const res = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
+
+      if (res.ok) return res;
+      
+    } catch (err) {
+      if (i === maxRetries - 1) throw err;
+      // Espera un poco antes de reintentar
+      await new Promise(r => setTimeout(r, 1000 * (i + 1)));
+    }
+  }
+}
 
 export default async function handler(req) {
   try {
     const { country = 'us', category, q } = req.query;
     const cacheKey = `${country}:${category}:${q}`;
 
-    // ✅ Si está en cache, DEVUELVE INMEDIATAMENTE
+    // ✅ Intenta cache primero
     if (newsCache[cacheKey]?.data && Date.now() - newsCache[cacheKey].time < CACHE_TIME) {
-      console.log(`📦 Cache hit for ${cacheKey}`);
       return new Response(
         JSON.stringify({ articles: newsCache[cacheKey].data }),
         { status: 200 }
@@ -25,29 +43,18 @@ export default async function handler(req) {
     if (category) url += `&category=${category}`;
     if (q) url += `&q=${q}`;
 
-    console.log(`🔄 Fetching from NewsAPI: ${url}`);
+    // ⭐ Intenta 3 veces con pequeños delays
+    const res = await fetchWithRetry(url);
 
-    // ⭐ 10 segundos de timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-    const res = await fetch(url, { signal: controller.signal });
-    clearTimeout(timeoutId);
-
-    if (!res.ok) {
-      throw new Error(`NewsAPI returned ${res.status}`);
-    }
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
     const data = await res.json();
     const articles = data.articles || [];
 
-    // ✅ GUARDA EN CACHE
     newsCache[cacheKey] = {
       data: articles,
       time: Date.now()
     };
-
-    console.log(`✅ Cached ${articles.length} articles`);
 
     return new Response(
       JSON.stringify({ articles }),
@@ -55,18 +62,10 @@ export default async function handler(req) {
     );
 
   } catch (err) {
-    console.error('❌ Error:', err.message);
-
-    if (err.name === 'AbortError') {
-      return new Response(
-        JSON.stringify({ error: 'NewsAPI is slow. Please try again in a moment.' }),
-        { status: 504 }
-      );
-    }
-
+    console.error('Error:', err.message);
     return new Response(
-      JSON.stringify({ error: err.message }),
-      { status: 500 }
+      JSON.stringify({ error: 'NewsAPI unavailable, please try again later' }),
+      { status: 503 }
     );
   }
 }
