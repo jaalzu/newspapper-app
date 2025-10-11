@@ -1,6 +1,6 @@
 // hooks/useFetchNews.js
 import { useState, useEffect } from 'react';
-import { fetchNews } from '../features/news/Newsapi';
+import { fetchNews } from '../api/NewsApi';  
 
 export function useFetchNews({ country = 'us', category, q }) {
   const [news, setNews] = useState([]);

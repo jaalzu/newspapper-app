@@ -1,8 +1,16 @@
-// features/news/Newsapi.js
+// src/features/api/NewsApi.js
 export async function fetchNews(params = {}) {
   try {
-    const queryString = new URLSearchParams(params).toString();
-    const url = `/api/news?${queryString}`;
+    const apiKey = process.env.REACT_APP_NEWSDATA_API_KEY;
+    
+    if (!apiKey) {
+      throw new Error('API key not configured');
+    }
+
+    let url = `https://newsdata.io/api/1/news?apikey=${apiKey}&country=${params.country || 'us'}`;
+    
+    if (params.category) url += `&category=${params.category}`;
+    if (params.q) url += `&q=${params.q}`;
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 8000);
@@ -11,17 +19,15 @@ export async function fetchNews(params = {}) {
     clearTimeout(timeoutId);
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || `HTTP ${response.status}`);
+      throw new Error(`NewsData returned ${response.status}`);
     }
 
     const data = await response.json();
-
-    if (!data?.articles || !Array.isArray(data.articles)) {
-      throw new Error('Invalid response format');
-    }
-
-    return data.articles;
+    
+    // ⭐ NewsData devuelve "results"
+    const articles = data.results || [];
+    
+    return articles;
 
   } catch (error) {
     if (error.name === 'AbortError') {
