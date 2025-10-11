@@ -5,7 +5,7 @@ export async function fetchNews(params = {}) {
     const url = `/api/news?${queryString}`;
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 segundos
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
 
     const response = await fetch(url, { signal: controller.signal });
     clearTimeout(timeoutId);
@@ -25,11 +25,11 @@ export async function fetchNews(params = {}) {
 
   } catch (error) {
     if (error.name === 'AbortError') {
-      throw new Error('Request timeout - server took too long');
+      throw new Error('Request timeout');
     }
 
     if (error instanceof TypeError) {
-      throw new Error('Network error - check your connection');
+      throw new Error('Network error');
     }
 
     throw new Error(error.message || 'Error fetching news');

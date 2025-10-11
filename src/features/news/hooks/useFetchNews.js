@@ -21,7 +21,7 @@ export function useFetchNews({ country = 'us', category, q }) {
         setNews(articles);
       } catch (err) {
         setError(err.message);
-        console.error('Error fetching news:', err);
+        console.error('Error:', err);
       } finally {
         setIsLoading(false);
       }
