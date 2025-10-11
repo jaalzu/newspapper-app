@@ -20,8 +20,7 @@ export async function fetchNews(apiUrl) {
       throw new Error(`Respuesta inválida de ${apiUrl}: no contiene articles`)
     }
 
-  return res.status(200).json({ articles: data.articles });
-
+    return new Response(JSON.stringify({ articles: data.articles }), { status: 200 });
   } catch (error) {
     if (error.name === 'AbortError') {
       throw new Error(`La solicitud a ${apiUrl} tardó demasiado tiempo`)

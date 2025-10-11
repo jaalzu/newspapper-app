@@ -1,3 +1,4 @@
+// api/news.js
 export default async function handler(req) {
   try {
     const { searchParams } = new URL(req.url, 'http://localhost');
@@ -5,10 +6,13 @@ export default async function handler(req) {
     const category = searchParams.get('category');
     const q = searchParams.get('q');
 
-    // ✅ Solo disponible en serverless / Node
+    // ✅ process.env is ONLY on the server
     const apiKey = process.env.NEWS_API_KEY;
     if (!apiKey) {
-      return new Response(JSON.stringify({ error: 'API key missing' }), { status: 500 });
+      return new Response(
+        JSON.stringify({ error: 'API key missing' }), 
+        { status: 500 }
+      );
     }
 
     const url = `https://newsapi.org/v2/top-headlines?country=${country}${
@@ -18,8 +22,16 @@ export default async function handler(req) {
     const res = await fetch(url);
     const data = await res.json();
 
-    return new Response(JSON.stringify({ articles: data.articles }), { status: 200 });
+    // ✅ Use new Response(), NOT res.status()
+    return new Response(
+      JSON.stringify({ articles: data.articles }), 
+      { status: 200 }
+    );
+
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+    return new Response(
+      JSON.stringify({ error: err.message }), 
+      { status: 500 }
+    );
   }
 }
