@@ -1,47 +1,37 @@
 export async function fetchNews(apiUrl) {
   try {
-    // Validación de entrada
     if (!apiUrl || typeof apiUrl !== 'string') {
-      throw new Error('URL inválida')
+      throw new Error('URL inválida para fetchNews')
     }
 
-    // Timeout para evitar esperas infinitas
     const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 segundos
+    const timeoutId = setTimeout(() => controller.abort(), 10000) // 10s
 
-    const response = await fetch(apiUrl, {
-      signal: controller.signal
-    })
-
+    const response = await fetch(apiUrl, { signal: controller.signal })
     clearTimeout(timeoutId)
 
-    // Manejo de diferentes códigos de error
     if (!response.ok) {
-      const errorMessage = `Error ${response.status}: ${response.statusText}`
-      throw new Error(errorMessage)
+      throw new Error(`Error HTTP ${response.status} al llamar a ${apiUrl}`)
     }
 
-    const data = await response.json();
-    console.log(data)
+    const data = await response.json()
 
-    // Validación de la respuesta
     if (!data || !Array.isArray(data.articles)) {
-      throw new Error('Formato de respuesta inválido')
+      throw new Error(`Respuesta inválida de ${apiUrl}: no contiene articles`)
     }
 
-    return data.articles
+return res.status(200).json({ articles: data.articles });
 
   } catch (error) {
-    // Manejo específico de errores
     if (error.name === 'AbortError') {
-      throw new Error('La solicitud tardó demasiado tiempo')
-    }
-    
-    if (error instanceof TypeError) {
-      throw new Error('Error de conexión de red')
+      throw new Error(`La solicitud a ${apiUrl} tardó demasiado tiempo`)
     }
 
-    // Re-lanzar el error para que el caller lo maneje
-    throw error
+    if (error instanceof TypeError) {
+      throw new Error(`Error de conexión de red al acceder a ${apiUrl}`)
+    }
+
+    // Cualquier otro error lo pasamos como string claro
+    throw new Error(error.message || 'Error desconocido al obtener noticias')
   }
 }

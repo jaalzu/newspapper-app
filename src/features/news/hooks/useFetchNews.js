@@ -7,15 +7,8 @@ export function useFetchNews({ country = 'us', category, q } = {}) {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  const API_KEY = import.meta.env.VITE_NEWS_API_KEY
 
   useEffect(() => {
-    if (!API_KEY) {
-      setError('No API key found in .env')
-      setIsLoading(false)
-      return
-    }
-
     async function loadNews() {
       setIsLoading(true)
       try {
