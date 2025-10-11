@@ -24,13 +24,13 @@ export default function NewsCard({ article, compact }) {
         {isFavorite(article.url) ? '❤️' : '🤍'}
       </button>
 
-      {article.urlToImage && (
-        <img
-          src={article.urlToImage}
-          alt={article.title}
-          className="w-full object-cover mb-2 aspect-video"
-        />
-      )}
+      {article.image_url && (
+  <img
+    src={article.image_url}
+    alt={article.title}
+    className="w-full object-cover mb-2 aspect-video"
+  />
+)}
 
       <p className={`font-bold mb-1 text-xl ${styles.title}`}>
         {article.title}
@@ -43,8 +43,9 @@ export default function NewsCard({ article, compact }) {
       )}
 
       <div className="flex justify-between items-center text-xs text-gray-500">
-        <span>{new Date(article.publishedAt).toLocaleDateString()}</span>
-        {article.source?.name && (
+{article.pubDate && (
+  <span>{new Date(article.pubDate).toLocaleDateString()}</span>
+)}        {article.source?.name && (
           <span className="bg-gray-200 px-1 py-0.5 rounded text-gray-700 text-[0.6rem]">
             {article.source.name}
           </span>

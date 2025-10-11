@@ -1,7 +1,8 @@
 // src/features/api/NewsApi.js
 export async function fetchNews(params = {}) {
   try {
-    const apiKey = process.env.REACT_APP_NEWSDATA_API_KEY;
+    // ⭐ CAMBIAR ESTO:
+    const apiKey = import.meta.env.VITE_NEWSDATA_API_KEY;  // ← AQUÍ
     
     if (!apiKey) {
       throw new Error('API key not configured');
@@ -24,7 +25,6 @@ export async function fetchNews(params = {}) {
 
     const data = await response.json();
     
-    // ⭐ NewsData devuelve "results"
     const articles = data.results || [];
     
     return articles;
