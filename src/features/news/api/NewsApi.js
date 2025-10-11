@@ -20,7 +20,7 @@ export async function fetchNews(apiUrl) {
       throw new Error(`Respuesta inválida de ${apiUrl}: no contiene articles`)
     }
 
-return res.status(200).json({ articles: data.articles });
+  return res.status(200).json({ articles: data.articles });
 
   } catch (error) {
     if (error.name === 'AbortError') {
