@@ -1,38 +1,34 @@
-// lib/fetchNews.js
-export async function fetchNews(apiUrl) {
-  try {
-    if (!apiUrl || typeof apiUrl !== 'string') {
-      throw new Error('Invalid URL for fetchNews');
-    }
+// hooks/useFetchNews.js
+import { useState, useEffect } from 'react';
+import { fetchNews } from '../features/news/Newsapi';
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 seconds
+export function useFetchNews({ country = 'us', category, q }) {
+  const [news, setNews] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-    const response = await fetch(apiUrl, { signal: controller.signal });
-    clearTimeout(timeoutId);
+  useEffect(() => {
+    const loadNews = async () => {
+      setIsLoading(true);
+      setError(null);
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`HTTP ${response.status}: ${errorText}`);
-    }
+      try {
+        const params = { country };
+        if (category) params.category = category;
+        if (q) params.q = q;
 
-    const data = await response.json();
+        const articles = await fetchNews(params);
+        setNews(articles);
+      } catch (err) {
+        setError(err.message);
+        console.error('Error fetching news:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    if (!data?.articles || !Array.isArray(data.articles)) {
-      throw new Error('Invalid response format: missing articles array');
-    }
+    loadNews();
+  }, [country, category, q]);
 
-    return data.articles;
-
-  } catch (error) {
-    if (error.name === 'AbortError') {
-      throw new Error('Request timeout - server took too long to respond');
-    }
-
-    if (error instanceof TypeError) {
-      throw new Error('Network error - check your connection');
-    }
-
-    throw new Error(error.message || 'Unknown error fetching news');
-  }
+  return { news, isLoading, error };
 }

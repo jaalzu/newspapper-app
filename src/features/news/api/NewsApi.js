@@ -1,36 +1,37 @@
-export async function fetchNews(apiUrl) {
+// features/news/Newsapi.js
+export async function fetchNews(params = {}) {
   try {
-    if (!apiUrl || typeof apiUrl !== 'string') {
-      throw new Error('URL inválida para fetchNews')
-    }
+    const queryString = new URLSearchParams(params).toString();
+    const url = `/api/news?${queryString}`;
 
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 10000) // 10s
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 segundos
 
-    const response = await fetch(apiUrl, { signal: controller.signal })
-    clearTimeout(timeoutId)
+    const response = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
-      throw new Error(`Error HTTP ${response.status} al llamar a ${apiUrl}`)
+      const error = await response.json();
+      throw new Error(error.error || `HTTP ${response.status}`);
     }
 
-    const data = await response.json()
+    const data = await response.json();
 
-    if (!data || !Array.isArray(data.articles)) {
-      throw new Error(`Respuesta inválida de ${apiUrl}: no contiene articles`)
+    if (!data?.articles || !Array.isArray(data.articles)) {
+      throw new Error('Invalid response format');
     }
 
-    return new Response(JSON.stringify({ articles: data.articles }), { status: 200 });
+    return data.articles;
+
   } catch (error) {
     if (error.name === 'AbortError') {
-      throw new Error(`La solicitud a ${apiUrl} tardó demasiado tiempo`)
+      throw new Error('Request timeout - server took too long');
     }
 
     if (error instanceof TypeError) {
-      throw new Error(`Error de conexión de red al acceder a ${apiUrl}`)
+      throw new Error('Network error - check your connection');
     }
 
-    // Cualquier otro error lo pasamos como string claro
-    throw new Error(error.message || 'Error desconocido al obtener noticias')
+    throw new Error(error.message || 'Error fetching news');
   }
 }
